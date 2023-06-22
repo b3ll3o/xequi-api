@@ -6,12 +6,8 @@ import { join } from 'path';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: 'admin',
-      database: 'api',
+      type: 'sqlite',
+      database: 'db.sqlite',
       entities: [join(__dirname, '/**/*.entity{.ts,.js}')],
       synchronize: true,
       autoLoadEntities: true,
@@ -21,4 +17,4 @@ import { join } from 'path';
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule { }

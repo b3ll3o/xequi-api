@@ -1,4 +1,4 @@
-import { Controller } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { UsuariosApplicationService } from '../application/services/usuarios.application.service';
 import { NovoUsuarioDto } from '../application/dtos/novo.usuario.dto';
 import { UsuarioCadastradoDto } from '../application/dtos/usuario.cadastrado.dto';
@@ -9,8 +9,9 @@ export class UsuariosController {
     private readonly usuariosApplicationService: UsuariosApplicationService,
   ) {}
 
+  @Post()
   async cadastra(
-    novoUsuarioDto: NovoUsuarioDto,
+    @Body() novoUsuarioDto: NovoUsuarioDto,
   ): Promise<UsuarioCadastradoDto> {
     return this.usuariosApplicationService.cadastra(novoUsuarioDto);
   }

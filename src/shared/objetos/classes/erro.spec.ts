@@ -1,4 +1,3 @@
-import { error } from 'console';
 import { Erro } from './erro';
 
 describe('Erro', () => {
@@ -67,6 +66,18 @@ describe('Erro', () => {
     it('não deve adicionar mensagens com conteudo undefined', () => {
       const erro = new Erro('campo', ['mensagem']);
       erro.adicionaNovasMensagens([undefined]);
+      expect(erro.mensagens).toHaveLength(1);
+    });
+
+    it('não deve adicionar mensagens com conteudo null', () => {
+      const erro = new Erro('campo', ['mensagem']);
+      erro.adicionaNovasMensagens([null]);
+      expect(erro.mensagens).toHaveLength(1);
+    });
+
+    it('não deve adicionar mensagens com conteudo vazia', () => {
+      const erro = new Erro('campo', ['mensagem']);
+      erro.adicionaNovasMensagens(['']);
       expect(erro.mensagens).toHaveLength(1);
     });
   });

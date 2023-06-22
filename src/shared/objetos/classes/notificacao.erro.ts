@@ -11,6 +11,14 @@ export class NotificacaoErro {
     return [...this._erros];
   }
 
+  valido(): boolean {
+    return this._erros.length === 0;
+  }
+
+  invalido(): boolean {
+    return !this.valido();
+  }
+
   adicionaErros(erros: Erro[]): void {
     if (erros !== null && erros !== undefined) {
       erros.forEach((e) => this._adicionaErro(e));
