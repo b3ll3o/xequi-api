@@ -1,5 +1,5 @@
 import { EntidadeNotificavel } from '@/shared/objetos/classes/entidades/entidade.notificavel';
-import { Erro } from '@/shared/objetos/classes/erro';
+import { CampoJaCadastradoErro } from '@/shared/objetos/classes/erros/campo.ja.cadastrado.erro';
 import { Column, Entity } from 'typeorm';
 
 @Entity('usuarios')
@@ -13,9 +13,7 @@ export class Usuario extends EntidadeNotificavel<Usuario> {
     if (!usuario) {
       return true;
     }
-    this._notificacaoErro.adicionaErros([
-      new Erro('email', ['E-mail já cadastrado']),
-    ]);
+    this._notificacaoErro.adicionaErros([new CampoJaCadastradoErro('email')]);
     return false;
   }
 }
