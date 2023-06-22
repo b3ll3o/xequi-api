@@ -10,6 +10,7 @@ export class ValidationPipeCustom extends ValidationPipe {
       skipMissingProperties: false,
       whitelist: true,
       stopAtFirstError: true,
+      transform: true,
       exceptionFactory(errors) {
         throw new BadRequestCustomException(
           errors.map((e) => new Erro(e.property, Object.values(e.constraints))),
