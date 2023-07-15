@@ -16,6 +16,7 @@ export class UsuariosService {
       novoUsuario.email,
     );
     if (!novoUsuario.podeSerCadastrado(usuarioEncontrado)) {
+      novoUsuario.senha = undefined;
       return novoUsuario;
     }
     novoUsuario.senha = await this._hashSenha(novoUsuario.senha);
