@@ -31,7 +31,20 @@ describe('Erro', () => {
     it('não deve construir um novo erro com mensagens vazias', () => {
       expect(() => new Erro('campo', [])).toThrowError();
     });
+
+    it('não deve construir um novo erro com mensagens com centeudo vazio', () => {
+      expect(() => new Erro('campo', [''])).toThrowError();
+    });
+
+    it('não deve construir um novo erro com mensagens com centeudo null', () => {
+      expect(() => new Erro('campo', [null])).toThrowError();
+    });
+
+    it('não deve construir um novo erro com mensagens com centeudo undefined', () => {
+      expect(() => new Erro('campo', [undefined])).toThrowError();
+    });
   });
+
   describe('adicionaNovasMensagens', () => {
     it('deve adicionar novas mensagens', () => {
       const erro = new Erro('campo', ['mensagem']);
