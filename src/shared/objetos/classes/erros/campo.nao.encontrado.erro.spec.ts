@@ -4,9 +4,9 @@ describe('CampoNaoEncontradoErro', () => {
 
   describe('constructor', () => {
     it('deve criar um novo erro', () => {
-      const erro = new CampoNaoEncontradoErro('usuario')
-      expect(erro.campo).toBe('usuario')
-      expect(erro.mensagens[0]).toBe('Usuário não encontrado.')
+      const erro = new CampoNaoEncontradoErro('teste')
+      expect(erro.campo).toBe('teste')
+      expect(erro.mensagens[0]).toBe('Teste não encontrado.')
     })
   })
 })

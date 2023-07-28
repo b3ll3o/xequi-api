@@ -3,9 +3,9 @@ import { CampoJaCadastradoErro } from "./campo.ja.cadastrado.erro"
 describe('CampoJaCadastradoErro', () => {
   describe('constructor', () => {
     it('deve criar um novo erro', () => {
-      const erro = new CampoJaCadastradoErro('email')
-      expect(erro.campo).toBe('email')
-      expect(erro.mensagens[0]).toBe('E-mail já cadastrado.')
+      const erro = new CampoJaCadastradoErro('teste')
+      expect(erro.campo).toBe('teste')
+      expect(erro.mensagens[0]).toBe('Teste já cadastrado.')
     })
 
     it('deve jogar um erro quando campo for undefined', () => {
