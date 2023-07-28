@@ -27,4 +27,23 @@ describe('UsuariosApplicationService', () => {
       await expect(service.cadastra(UsuarioStub.novo())).rejects.toThrow();
     });
   });
+
+  describe('autentica', () => {
+    it('deve retorna usuario autenticado', async () => {
+      jest
+        .spyOn(usuariosService, 'autentica')
+        .mockImplementation(() => Promise.resolve(UsuarioStub.cadastrado()));
+      const usuario = await service.autentica(UsuarioStub.novo());
+      expect(usuario.id).toBe(UsuarioStub.ID);
+      expect(usuario.email).toBe(UsuarioStub.EMAIL);
+    });
+
+    it('deve retorna undefined quando usuario não estiver autenticado', async () => {
+      jest
+        .spyOn(usuariosService, 'autentica')
+        .mockImplementation(() => Promise.resolve(UsuarioStub.invalido()));
+      const usuario = await service.autentica(UsuarioStub.novo());
+      expect(usuario).toBeUndefined();
+    });
+  });
 });

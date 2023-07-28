@@ -53,4 +53,40 @@ describe('UsuariosService', () => {
       expect(usuario.invalido()).toBeTruthy();
     });
   });
+
+  describe('autentica', () => {
+    it('deve retorna um usuario autenticado', async () => {
+      jest
+        .spyOn(repository, 'findOne')
+        .mockImplementation(() => UsuarioStub.cadastradoHashSenha());
+      const usuario = await service.autentica(UsuarioStub.novo());
+      expect(usuario.id).not.toBeUndefined();
+      expect(usuario.email).not.toBeUndefined();
+      expect(usuario.senha).toBeUndefined();
+      expect(usuario.valido()).toBeTruthy();
+    });
+
+    it('deve retorna um usuario com erros quando email não estiver cadastrado', async () => {
+      jest
+        .spyOn(repository, 'findOne')
+        .mockImplementation(() => Promise.resolve(null));
+      const usuario = await service.autentica(UsuarioStub.novo());
+      expect(usuario.valido()).toBeFalsy();
+    });
+
+    it('deve retorna um usuario com erros quando email não estiver cadastrado', async () => {
+      jest
+        .spyOn(repository, 'findOne')
+        .mockImplementation(() => UsuarioStub.cadastradoHashSenha());
+      const usuario = await service.autentica(
+        UsuarioStub.novo(
+          new Usuario({
+            email: UsuarioStub.EMAIL_2,
+            senha: UsuarioStub.SENHA_2,
+          }),
+        ),
+      );
+      expect(usuario.valido()).toBeFalsy();
+    });
+  });
 });
