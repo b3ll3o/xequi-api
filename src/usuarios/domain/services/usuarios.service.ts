@@ -16,11 +16,29 @@ export class UsuariosService {
       novoUsuario.email,
     );
     if (!novoUsuario.podeSerCadastrado(usuarioEncontrado)) {
-      novoUsuario.senha = undefined;
-      return novoUsuario;
+      return this._formataCampos(novoUsuario);
     }
     novoUsuario.senha = await this._hashSenha(novoUsuario.senha);
     const usuario = await this.usuariosRepository.save(novoUsuario);
+    return this._formataCampos(usuario);
+  }
+
+  async autentica(usuario: Usuario): Promise<Usuario> {
+    const usuarioCadastrado = await this._buscaUsuarioPorEmail(usuario.email);
+    if (!usuario.podeSerEncontrado(usuarioCadastrado)) {
+      return this._formataCampos(usuario);
+    }
+    const senhaVerificada = await this._verificaSenha(
+      usuario.senha,
+      usuarioCadastrado.senha,
+    );
+    if (!usuario.podeSerAutenticado(senhaVerificada)) {
+      return this._formataCampos(usuario);
+    }
+    return this._formataCampos(usuarioCadastrado);
+  }
+
+  private _formataCampos(usuario: Usuario): Usuario {
     usuario.senha = undefined;
     return usuario;
   }
@@ -32,5 +50,9 @@ export class UsuariosService {
   private async _hashSenha(senha: string) {
     const salt = await bcrypt.genSalt();
     return await bcrypt.hash(senha, salt);
+  }
+
+  private async _verificaSenha(senha: string, hash: string): Promise<boolean> {
+    return bcrypt.compare(senha, hash);
   }
 }

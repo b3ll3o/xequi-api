@@ -7,8 +7,6 @@ import { Usuario } from '@/usuarios/domain/entities/usuario.entity';
 import { UsuariosModule } from '@/usuarios/usuarios.module';
 import { ValidationPipeCustom } from '@/shared/pipes/validation.pipe.custom';
 import { UsuarioStub } from '@/usuarios/test/stubs/entities/usuario.entity.stub';
-import { ErroDto } from '@/shared/objetos/classes/dtos/erro.dto';
-import { CampoJaCadastradoErro } from '@/shared/objetos/classes/erros/campo.ja.cadastrado.erro';
 
 const BASE_URL = '/usuarios';
 
@@ -24,7 +22,7 @@ describe('Usuarios - cadastra', () => {
           type: 'sqlite',
           database: ':memory:',
           entities: [Usuario],
-          synchronize: true
+          synchronize: true,
         }),
         TypeOrmModule.forFeature([Usuario]),
       ],
