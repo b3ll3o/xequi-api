@@ -4,6 +4,7 @@ import * as bcrypt from 'bcrypt';
 export class UsuarioStub {
   static ID = 1;
   static EMAIL = 'email@email.com';
+  static PERFIL = 'perfil';
   static EMAIL_2 = 'teste@teste.com';
   static SENHA = 'Senha@123';
   static SENHA_2 = 'Outra@123';

@@ -1,8 +1,9 @@
 import { EntidadeNotificavel } from '@/shared/objetos/classes/entidades/entidade.notificavel';
 import { CampoJaCadastradoErro } from '@/shared/objetos/classes/erros/campo.ja.cadastrado.erro';
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, ManyToOne } from 'typeorm';
 import { SenhaErradaErro } from '../erros/senha.errada.erro';
 import { CampoNaoEncontradoErro } from '@/shared/objetos/classes/erros/campo.nao.encontrado.erro';
+import { UsuarioEmpresa } from './usuario.empresa.entity';
 
 @Entity('usuarios')
 export class Usuario extends EntidadeNotificavel<Usuario> {
@@ -10,6 +11,8 @@ export class Usuario extends EntidadeNotificavel<Usuario> {
   email: string;
   @Column()
   senha: string;
+  @ManyToOne(() => UsuarioEmpresa, (usuarioEmpresa) => usuarioEmpresa.empresas)
+  empresa?: string;
 
   podeSerCadastrado(usuario: Usuario): boolean {
     if (!usuario) {
