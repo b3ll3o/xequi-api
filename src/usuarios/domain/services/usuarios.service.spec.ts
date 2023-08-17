@@ -22,7 +22,7 @@ describe('UsuariosService', () => {
           synchronize: true,
           dropSchema: true,
         }),
-        TypeOrmModule.forFeature([Usuario]),
+        TypeOrmModule.forFeature([Usuario, Empresa, UsuarioEmpresa]),
       ],
     }).compile();
 

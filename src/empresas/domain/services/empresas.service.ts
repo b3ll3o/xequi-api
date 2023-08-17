@@ -18,7 +18,7 @@ export class EmpresasService {
     return this.empresasRepository.save(novaEmpresa);
   }
 
-  async _buscaEmpresaPorNome(nome: string): Promise<null | Empresa> {
+  private async _buscaEmpresaPorNome(nome: string): Promise<null | Empresa> {
     return this.empresasRepository.findOne({ where: { nome } });
   }
 }
