@@ -8,7 +8,7 @@ import { UsuariosModule } from '@/usuarios/usuarios.module';
 import { ValidationPipeCustom } from '@/shared/pipes/validation.pipe.custom';
 import { UsuarioStub } from '@/usuarios/test/stubs/entities/usuario.entity.stub';
 import { Empresa } from '@/empresas/domain/entities/empresa.entity';
-import { UsuarioEmpresa } from '@/usuarios/domain/entities/usuario.empresa.entity';
+import { UsuarioEmpresa } from '@/empresas/domain/entities/usuario.empresa.entity';
 
 const BASE_URL = '/usuarios';
 

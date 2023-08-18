@@ -4,10 +4,11 @@ import { EmpresasApplicationService } from './application/services/empresas.appl
 import { EmpresasService } from './domain/services/empresas.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Empresa } from './domain/entities/empresa.entity';
+import { UsuarioEmpresa } from './domain/entities/usuario.empresa.entity';
 
 @Module({
   controllers: [EmpresasController],
   providers: [EmpresasApplicationService, EmpresasService],
-  imports: [TypeOrmModule.forFeature([Empresa])],
+  imports: [TypeOrmModule.forFeature([Empresa, UsuarioEmpresa])],
 })
 export class EmpresasModule {}

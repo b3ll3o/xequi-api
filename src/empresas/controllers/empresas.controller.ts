@@ -1,7 +1,8 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, Request } from '@nestjs/common';
 import { NovaEmpresaDto } from '../application/dtos/nova.empresa.dto';
 import { EmpresaCadastradaDto } from '../application/dtos/empresa.cadastrada.dto';
 import { EmpresasApplicationService } from '../application/services/empresas.application.service';
+import { UsuarioLogadoDto } from '@/auth/application/dtos/usuario.logado.dto';
 
 @Controller('empresas')
 export class EmpresasController {
@@ -12,7 +13,12 @@ export class EmpresasController {
   @Post()
   async cadastra(
     @Body() novaEmpresaDto: NovaEmpresaDto,
+    @Request() req,
   ): Promise<EmpresaCadastradaDto> {
-    return this.empresasApplicationService.cadastra(novaEmpresaDto);
+    const { usuarioLogado }: { usuarioLogado: UsuarioLogadoDto } = req;
+    return this.empresasApplicationService.cadastra(
+      novaEmpresaDto,
+      usuarioLogado,
+    );
   }
 }

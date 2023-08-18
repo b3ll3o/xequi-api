@@ -5,15 +5,18 @@ import { EmpresasService } from './empresas.service';
 import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule, getRepositoryToken } from '@nestjs/typeorm';
 import { Usuario } from '@/usuarios/domain/entities/usuario.entity';
-import { UsuarioEmpresa } from '@/usuarios/domain/entities/usuario.empresa.entity';
+import { UsuariosEmpresasService } from './usuarios.empresas.service';
+import { UsuarioEmpresa } from '../entities/usuario.empresa.entity';
+import { UsuarioEmpresaStub } from '@/empresas/test/stubs/entities/usuario.empresa.entity.stub';
 
 describe('EmpresasService', () => {
   let repository: Repository<Empresa>;
   let service: EmpresasService;
+  let usuariosEmpresasService: UsuariosEmpresasService
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [EmpresasService],
+      providers: [EmpresasService, UsuariosEmpresasService],
       imports: [
         TypeOrmModule.forRoot({
           type: 'sqlite',
@@ -26,8 +29,9 @@ describe('EmpresasService', () => {
       ],
     }).compile();
 
+    usuariosEmpresasService = new UsuariosEmpresasService(null)
     repository = module.get(getRepositoryToken(Empresa));
-    service = new EmpresasService(repository);
+    service = new EmpresasService(repository, usuariosEmpresasService);
   });
 
   describe('cadastra', () => {
@@ -38,7 +42,10 @@ describe('EmpresasService', () => {
       jest
         .spyOn(repository, 'save')
         .mockImplementation(() => Promise.resolve(EmpresaStub.cadastrada()));
-      const empresa = await service.cadastra(EmpresaStub.nova());
+        jest
+        .spyOn(usuariosEmpresasService, 'cadastra')
+        .mockImplementation(() => Promise.resolve(UsuarioEmpresaStub.cadastrado()));
+      const empresa = await service.cadastra(1, EmpresaStub.nova());
       expect(empresa.id).toBe(1);
       expect(empresa.nome).toBe(EmpresaStub.NOME);
     });
@@ -47,7 +54,7 @@ describe('EmpresasService', () => {
       jest
         .spyOn(repository, 'findOne')
         .mockImplementation(() => Promise.resolve(EmpresaStub.cadastrada()));
-      const empresa = await service.cadastra(EmpresaStub.nova());
+      const empresa = await service.cadastra(1, EmpresaStub.nova());
       expect(empresa.invalido()).toBeTruthy();
     });
   });

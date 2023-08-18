@@ -5,7 +5,7 @@ import { UsuariosService } from './usuarios.service';
 import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule, getRepositoryToken } from '@nestjs/typeorm';
 import { Empresa } from '@/empresas/domain/entities/empresa.entity';
-import { UsuarioEmpresa } from '../entities/usuario.empresa.entity';
+import { UsuarioEmpresa } from '@/empresas/domain/entities/usuario.empresa.entity';
 
 describe('UsuariosService', () => {
   let repository: Repository<Usuario>;

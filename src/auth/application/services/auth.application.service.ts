@@ -17,7 +17,7 @@ export class AuthApplicationService {
     if (!usuario) {
       throw new UnauthorizedException();
     }
-    const payload = { sub: usuario.id, email: usuario.email };
+    const payload = { sub: usuario.id, email: usuario.email, id: usuario.id };
     return {
       access_token: await this._jwtService.signAsync(payload),
     };

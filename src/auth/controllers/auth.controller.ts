@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { AuthApplicationService } from '../application/services/auth.application.service';
 import { UsuarioAutenticavelDto } from '../application/dtos/usuario.autenticavel.dto';
+import { Public } from '../application/guards/public.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -16,6 +17,7 @@ export class AuthController {
     private readonly _authApplicationService: AuthApplicationService,
   ) {}
 
+  @Public()
   @HttpCode(HttpStatus.OK)
   @Post('login')
   signIn(@Body() usuarioAutenticavelDto: UsuarioAutenticavelDto) {
