@@ -17,7 +17,10 @@ describe('EmpresasApplicationService', () => {
       jest
         .spyOn(empresasService, 'cadastra')
         .mockImplementation(() => Promise.resolve(EmpresaStub.cadastrada()));
-      const empresa = await service.cadastra(EmpresaStub.nova(), UsuarioLogadoDtoStub.get());
+      const empresa = await service.cadastra(
+        EmpresaStub.nova(),
+        UsuarioLogadoDtoStub.get(),
+      );
       expect(empresa.id).toBe(EmpresaStub.ID);
       expect(empresa.nome).toBe(EmpresaStub.NOME);
     });
@@ -26,7 +29,9 @@ describe('EmpresasApplicationService', () => {
       jest
         .spyOn(empresasService, 'cadastra')
         .mockImplementation(() => Promise.resolve(EmpresaStub.invalida()));
-      await expect(service.cadastra(EmpresaStub.nova(), UsuarioLogadoDtoStub.get())).rejects.toThrow();
+      await expect(
+        service.cadastra(EmpresaStub.nova(), UsuarioLogadoDtoStub.get()),
+      ).rejects.toThrow();
     });
   });
 });

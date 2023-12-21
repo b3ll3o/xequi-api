@@ -8,7 +8,7 @@
   },
   "moduleNameMapper": {
     "^@/(.*)$": [
-      "/home/leo/projetos/reservas/api/src/$1"
+      "/home/leo/projetos/marcacao-pontos/marcacao-pontos-api/src/$1"
     ]
   }
 }

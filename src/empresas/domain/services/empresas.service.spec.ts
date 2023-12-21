@@ -12,7 +12,7 @@ import { UsuarioEmpresaStub } from '@/empresas/test/stubs/entities/usuario.empre
 describe('EmpresasService', () => {
   let repository: Repository<Empresa>;
   let service: EmpresasService;
-  let usuariosEmpresasService: UsuariosEmpresasService
+  let usuariosEmpresasService: UsuariosEmpresasService;
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -29,7 +29,7 @@ describe('EmpresasService', () => {
       ],
     }).compile();
 
-    usuariosEmpresasService = new UsuariosEmpresasService(null)
+    usuariosEmpresasService = new UsuariosEmpresasService(null);
     repository = module.get(getRepositoryToken(Empresa));
     service = new EmpresasService(repository, usuariosEmpresasService);
   });
@@ -42,9 +42,11 @@ describe('EmpresasService', () => {
       jest
         .spyOn(repository, 'save')
         .mockImplementation(() => Promise.resolve(EmpresaStub.cadastrada()));
-        jest
+      jest
         .spyOn(usuariosEmpresasService, 'cadastra')
-        .mockImplementation(() => Promise.resolve(UsuarioEmpresaStub.cadastrado()));
+        .mockImplementation(() =>
+          Promise.resolve(UsuarioEmpresaStub.cadastrado()),
+        );
       const empresa = await service.cadastra(1, EmpresaStub.nova());
       expect(empresa.id).toBe(1);
       expect(empresa.nome).toBe(EmpresaStub.NOME);
