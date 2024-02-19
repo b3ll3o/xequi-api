@@ -9,13 +9,17 @@ describe('AuthApplicationService', () => {
   let usuarioApplicationService: UsuariosApplicationService;
   let jwtService: JwtService;
   let service: AuthApplicationService;
-  let authService: AuthService
+  let authService: AuthService;
 
   beforeEach(() => {
     usuarioApplicationService = new UsuariosApplicationService(null);
     jwtService = new JwtService();
-    authService = new AuthService(null, null)
-    service = new AuthApplicationService(usuarioApplicationService, jwtService, authService);
+    authService = new AuthService(null, null);
+    service = new AuthApplicationService(
+      usuarioApplicationService,
+      jwtService,
+      authService,
+    );
   });
 
   describe('login', () => {

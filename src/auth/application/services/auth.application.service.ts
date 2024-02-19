@@ -45,12 +45,16 @@ export class AuthApplicationService {
     return new AutorizaoCriadaDto(autorizaoCadastrada);
   }
 
-  async criaNovoPerfil(novoPerfilDto: NovoPerfilDto): Promise<PerfilCadastradoDto> {
-    const { nome } = novoPerfilDto
-    const perfilCadastrado = await this._authService.criaNovoPerfil(new Perfil({nome}))
-    if(perfilCadastrado.invalido()){
-      throw new BadRequestCustomException(perfilCadastrado.erros)
+  async criaNovoPerfil(
+    novoPerfilDto: NovoPerfilDto,
+  ): Promise<PerfilCadastradoDto> {
+    const { nome } = novoPerfilDto;
+    const perfilCadastrado = await this._authService.criaNovoPerfil(
+      new Perfil({ nome }),
+    );
+    if (perfilCadastrado.invalido()) {
+      throw new BadRequestCustomException(perfilCadastrado.erros);
     }
-    return new PerfilCadastradoDto(perfilCadastrado)
+    return new PerfilCadastradoDto(perfilCadastrado);
   }
 }

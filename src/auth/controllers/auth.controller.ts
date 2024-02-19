@@ -29,9 +29,7 @@ export class AuthController {
   }
 
   @Post('perfis')
-  criaNovoPerfil(
-    novoPerfilDto: NovoPerfilDto,
-  ): Promise<PerfilCadastradoDto> {
+  criaNovoPerfil(novoPerfilDto: NovoPerfilDto): Promise<PerfilCadastradoDto> {
     return this._authApplicationService.criaNovoPerfil(novoPerfilDto);
   }
 

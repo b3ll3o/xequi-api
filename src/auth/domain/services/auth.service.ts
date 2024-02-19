@@ -24,7 +24,6 @@ export class AuthService {
     this.autorizacaoRepository.save(novaAutorizao);
   }
 
-  
   async criaNovoPerfil(novoPerfil: Perfil): Promise<Perfil> {
     const { nome } = novoPerfil;
     const perfilCadastrado = await this.perfilRepository.findOne({
