@@ -10,11 +10,11 @@ export abstract class EntidadeNotificavelRastreavel<
   T,
 > extends EntidadeNotificavel<T> {
   @CreateDateColumn()
-  dataCriacao: Date;
+  dataCriacao?: Date;
   @UpdateDateColumn()
-  dataAtualizacao: Date;
+  dataAtualizacao?: Date;
   @DeleteDateColumn()
-  dataDelecao: Date;
+  dataDelecao?: Date;
   @VersionColumn()
-  versao: number;
+  versao?: number;
 }
