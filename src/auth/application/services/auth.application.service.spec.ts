@@ -3,16 +3,19 @@ import { JwtService } from '@nestjs/jwt';
 import { AuthApplicationService } from './auth.application.service';
 import { UsuarioAutenticavelDtoStub } from '@/auth/test/stubs/dtos/usuario.autenticavel.dto.stub';
 import { UsuarioStub } from '@/usuarios/test/stubs/entities/usuario.entity.stub';
+import { AuthService } from '@/auth/domain/services/auth.service';
 
 describe('AuthApplicationService', () => {
   let usuarioApplicationService: UsuariosApplicationService;
   let jwtService: JwtService;
   let service: AuthApplicationService;
+  let authService: AuthService
 
   beforeEach(() => {
     usuarioApplicationService = new UsuariosApplicationService(null);
     jwtService = new JwtService();
-    service = new AuthApplicationService(usuarioApplicationService, jwtService);
+    authService = new AuthService(null, null)
+    service = new AuthApplicationService(usuarioApplicationService, jwtService, authService);
   });
 
   describe('login', () => {

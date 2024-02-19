@@ -2,7 +2,7 @@ import { Erro } from '../erro';
 import { NotificacaoErro } from '../notificacao.erro';
 import { Entidade } from './entidade';
 
-export class EntidadeNotificavel<T> extends Entidade<T> {
+export abstract class EntidadeNotificavel<T> extends Entidade<T> {
   protected _notificacaoErro: NotificacaoErro;
 
   constructor(entidade: Partial<T>) {
