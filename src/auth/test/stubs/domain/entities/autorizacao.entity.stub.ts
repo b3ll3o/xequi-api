@@ -4,6 +4,7 @@ export class AutorizaoStub {
 
   static NOME_AUTORIZAO = 'nome_autorizacao';
   static PERFIS_AUTORIZACAO = [];
+  static ID = 1;
 
   static nova(
     autorizacao: Autorizacao = new Autorizacao({
@@ -15,7 +16,7 @@ export class AutorizaoStub {
   }
 
   static cadastrada(autorizacao: Autorizacao = new Autorizacao({
-    id: 1,
+    id: this.ID,
     nome: this.NOME_AUTORIZAO,
     perfis: this.PERFIS_AUTORIZACAO
   })){

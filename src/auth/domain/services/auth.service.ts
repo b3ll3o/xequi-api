@@ -21,7 +21,7 @@ export class AuthService {
     if (!novaAutorizao.podeSerCadastrada(autorizacaoCadastrada)) {
       return novaAutorizao;
     }
-    this.autorizacaoRepository.save(novaAutorizao);
+    return await this.autorizacaoRepository.save(novaAutorizao);
   }
 
   async criaNovoPerfil(novoPerfil: Perfil): Promise<Perfil> {
@@ -32,6 +32,6 @@ export class AuthService {
     if (!novoPerfil.podeSerCadastrada(perfilCadastrado)) {
       return novoPerfil;
     }
-    this.autorizacaoRepository.save(novoPerfil);
+    return await this.autorizacaoRepository.save(novoPerfil);
   }
 }

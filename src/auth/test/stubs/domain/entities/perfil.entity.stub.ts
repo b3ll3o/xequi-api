@@ -4,6 +4,7 @@ export class PerfilStub {
 
   static NOME_PERFIL = 'nome_perfil';
   static AUTORIZACAO_PERFIS = [];
+  static ID = 1
 
   static novo(
     perfil: Perfil = new Perfil({
