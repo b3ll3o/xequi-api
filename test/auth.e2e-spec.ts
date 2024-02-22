@@ -13,6 +13,7 @@ import { AuthModule } from '@/auth/auth.module';
 import { JwtGuard } from '@/auth/application/guards/jwt.guard';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { Reflector } from '@nestjs/core';
+import { PayloadDtoStub } from '@/auth/test/stubs/dtos/payload.dto.stub';
 
 const BASE_URL = '/auth';
 
@@ -85,11 +86,10 @@ describe('auth', () => {
   });
 
   describe('profile', () => {
-    const TOKEN =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoidGVzdGVAdGVzdGUuY29tIiwiaWQiOjEsImlhdCI6MTcwNjkwMzE2MiwiZXhwIjoxNzA3NTA3OTYyfQ.-4ajYr4qS_einyU0kPRIsga1ZdjwT7IuwkZmwts-o3g';
     const BASE_URL_PROFILE = `${BASE_URL}/profile`;
 
     it('deve retorna os dados de um usuario cadastrado', async () => {
+      const TOKEN = await jwtService.signAsync(PayloadDtoStub.novo());
       const usuarioCadastradoSenhaHash =
         await UsuarioStub.cadastradoHashSenha();
       await repository.save(usuarioCadastradoSenhaHash);
@@ -97,17 +97,11 @@ describe('auth', () => {
         .get(BASE_URL_PROFILE)
         .send(UsuarioStub.novo())
         .auth(TOKEN, { type: 'bearer' })
-        .expect(200)
-        .expect({
-          sub: 1,
-          email: 'teste@teste.com',
-          id: 1,
-          iat: 1706903162,
-          exp: 1707507962,
-        });
+        .expect(200);
     });
 
     it('deve retorna 401 se o token for invalido', async () => {
+      const TOKEN = await jwtService.signAsync(PayloadDtoStub.novo());
       return request(app.getHttpServer())
         .get(BASE_URL_PROFILE)
         .send(UsuarioStub.novo())

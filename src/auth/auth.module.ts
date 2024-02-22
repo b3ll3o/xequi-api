@@ -4,6 +4,10 @@ import { AuthApplicationService } from './application/services/auth.application.
 import { AuthController } from './controllers/auth.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './application/constantes/constantes';
+import { AuthService } from './domain/services/auth.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Autorizacao } from './domain/entities/autorizao.entity';
+import { Perfil } from './domain/entities/perfil.entity';
 
 @Module({
   imports: [
@@ -13,8 +17,9 @@ import { jwtConstants } from './application/constantes/constantes';
       secret: jwtConstants.secret,
       signOptions: { expiresIn: '7d' },
     }),
+    TypeOrmModule.forFeature([Autorizacao, Perfil]),
   ],
-  providers: [AuthApplicationService],
+  providers: [AuthApplicationService, AuthService],
   controllers: [AuthController],
   exports: [AuthApplicationService],
 })

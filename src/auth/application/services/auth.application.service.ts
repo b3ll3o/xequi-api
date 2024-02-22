@@ -10,6 +10,7 @@ import { BadRequestCustomException } from '@/shared/exceptions/bad.request.custo
 import { NovoPerfilDto } from '../dtos/novo.perfil.dto';
 import { PerfilCadastradoDto } from '../dtos/perfil.cadastrado.dto';
 import { Perfil } from '@/auth/domain/entities/perfil.entity';
+import { PayloadDto } from '../dtos/payload.dto';
 
 @Injectable()
 export class AuthApplicationService {
@@ -26,9 +27,11 @@ export class AuthApplicationService {
     if (!usuario) {
       throw new UnauthorizedException();
     }
-    const payload = { sub: usuario.id, email: usuario.email, id: usuario.id };
+    const payload = new PayloadDto(usuario);
     return {
-      access_token: await this._jwtService.signAsync(payload),
+      access_token: await this._jwtService.signAsync(
+        Object.assign({}, payload),
+      ),
     };
   }
 
