@@ -5,6 +5,7 @@ import { UsuarioAutenticavelDtoStub } from '@/auth/test/stubs/dtos/usuario.auten
 import { UsuarioStub } from '@/usuarios/test/stubs/entities/usuario.entity.stub';
 import { AuthService } from '@/auth/domain/services/auth.service';
 import { AutorizaoStub } from '@/auth/test/stubs/domain/entities/autorizacao.entity.stub';
+import { PerfilStub } from '@/auth/test/stubs/domain/entities/perfil.entity.stub';
 
 describe('AuthApplicationService', () => {
   let usuarioApplicationService: UsuariosApplicationService;
@@ -46,22 +47,42 @@ describe('AuthApplicationService', () => {
   });
 
   describe('criaNovaAutorizacao', () => {
-    it('deve retorna usuario cadastrado', async () => {
+    it('deve retorna autorização cadastrado', async () => {
       jest
         .spyOn(authService, 'criaNovaAutorizacao')
         .mockImplementation(() => Promise.resolve(AutorizaoStub.cadastrada()));
-      const usuario = await service.criaNovaAutorizacao(AutorizaoStub.nova());
-      expect(usuario.id).toBe(AutorizaoStub.ID);
-      expect(usuario.nome).toBe(AutorizaoStub.NOME_AUTORIZAO);
+      const autorizacao = await service.criaNovaAutorizacao(
+        AutorizaoStub.nova(),
+      );
+      expect(autorizacao.id).toBe(AutorizaoStub.ID);
+      expect(autorizacao.nome).toBe(AutorizaoStub.NOME_AUTORIZAO);
     });
 
-    it('deve jogar um erro quando usuario estiver invalido', async () => {
+    it('deve jogar um erro quando autorização estiver invalido', async () => {
       jest
         .spyOn(authService, 'criaNovaAutorizacao')
         .mockImplementation(() => Promise.resolve(AutorizaoStub.invalida()));
       await expect(
         service.criaNovaAutorizacao(AutorizaoStub.nova()),
       ).rejects.toThrow();
+    });
+  });
+
+  describe('criaNovoPerfil', () => {
+    it('deve retorna perfil cadastrado', async () => {
+      jest
+        .spyOn(authService, 'criaNovoPerfil')
+        .mockImplementation(() => Promise.resolve(PerfilStub.cadastrado()));
+      const perfil = await service.criaNovoPerfil(PerfilStub.novo());
+      expect(perfil.id).toBe(PerfilStub.ID);
+      expect(perfil.nome).toBe(PerfilStub.NOME_PERFIL);
+    });
+
+    it('deve jogar um erro quando perfil estiver invalido', async () => {
+      jest
+        .spyOn(authService, 'criaNovoPerfil')
+        .mockImplementation(() => Promise.resolve(PerfilStub.invalido()));
+      await expect(service.criaNovoPerfil(PerfilStub.novo())).rejects.toThrow();
     });
   });
 });

@@ -29,7 +29,7 @@ export class AuthService {
     const perfilCadastrado = await this.perfilRepository.findOne({
       where: { nome },
     });
-    if (!novoPerfil.podeSerCadastrada(perfilCadastrado)) {
+    if (!novoPerfil.podeSerCadastrado(perfilCadastrado)) {
       return novoPerfil;
     }
     return await this.autorizacaoRepository.save(novoPerfil);

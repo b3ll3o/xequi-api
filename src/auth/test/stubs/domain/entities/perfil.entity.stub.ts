@@ -23,4 +23,10 @@ export class PerfilStub {
   ) {
     return perfil;
   }
+
+  static invalido(): Perfil {
+    const perfil = this.cadastrado();
+    perfil.podeSerCadastrado(this.cadastrado());
+    return perfil;
+  }
 }

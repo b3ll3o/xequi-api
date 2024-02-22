@@ -11,7 +11,7 @@ export class Perfil extends EntidadeNotificavelRastreavel<Perfil> {
   @JoinTable()
   autorizacoes: Autorizacao[];
 
-  podeSerCadastrada(perfil: Perfil): boolean {
+  podeSerCadastrado(perfil: Perfil): boolean {
     if (!perfil) {
       return true;
     }
