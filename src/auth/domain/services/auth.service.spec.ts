@@ -9,7 +9,7 @@ import { PerfilStub } from '@/auth/test/stubs/domain/entities/perfil.entity.stub
 
 describe('AuthService', () => {
   let perfilRepository: Repository<Perfil>;
-  let autorizacaoRepository: Repository<Autorizacao>
+  let autorizacaoRepository: Repository<Autorizacao>;
   let service: AuthService;
 
   beforeAll(async () => {
@@ -41,7 +41,9 @@ describe('AuthService', () => {
         .spyOn(autorizacaoRepository, 'save')
         .mockImplementation(() => Promise.resolve(AutorizaoStub.cadastrada()));
 
-      const autorizacao = await service.criaNovaAutorizao(AutorizaoStub.nova());
+      const autorizacao = await service.criaNovaAutorizacao(
+        AutorizaoStub.nova(),
+      );
 
       expect(autorizacao.id).toBe(AutorizaoStub.ID);
     });
@@ -51,7 +53,9 @@ describe('AuthService', () => {
         .spyOn(autorizacaoRepository, 'findOne')
         .mockImplementation(() => Promise.resolve(AutorizaoStub.cadastrada()));
 
-      const autorizacao = await service.criaNovaAutorizao(AutorizaoStub.nova());
+      const autorizacao = await service.criaNovaAutorizacao(
+        AutorizaoStub.nova(),
+      );
 
       expect(autorizacao.invalido()).toBeTruthy();
     });

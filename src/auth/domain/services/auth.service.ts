@@ -13,7 +13,7 @@ export class AuthService {
     private readonly perfilRepository: Repository<Perfil>,
   ) {}
 
-  async criaNovaAutorizao(novaAutorizao: Autorizacao): Promise<Autorizacao> {
+  async criaNovaAutorizacao(novaAutorizao: Autorizacao): Promise<Autorizacao> {
     const { nome } = novaAutorizao;
     const autorizacaoCadastrada = await this.autorizacaoRepository.findOne({
       where: { nome },

@@ -1,4 +1,4 @@
-import { AutorizaoStub } from "@/auth/test/stubs/domain/entities/autorizacao.entity.stub";
+import { AutorizaoStub } from '@/auth/test/stubs/domain/entities/autorizacao.entity.stub';
 
 describe('Autorizacao', () => {
   describe('podeSerCadastrada', () => {
@@ -14,7 +14,9 @@ describe('Autorizacao', () => {
 
     it('deve retorna false e adicionar novo erro quando autorização passado for valido', () => {
       const autorizacao = AutorizaoStub.nova();
-      expect(autorizacao.podeSerCadastrada(AutorizaoStub.cadastrada())).toBeFalsy();
+      expect(
+        autorizacao.podeSerCadastrada(AutorizaoStub.cadastrada()),
+      ).toBeFalsy();
       expect(autorizacao.invalido()).toBeTruthy();
       expect(autorizacao.erros).toHaveLength(1);
     });

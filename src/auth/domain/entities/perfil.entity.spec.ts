@@ -1,4 +1,4 @@
-import { PerfilStub } from "@/auth/test/stubs/domain/entities/perfil.entity.stub";
+import { PerfilStub } from '@/auth/test/stubs/domain/entities/perfil.entity.stub';
 
 describe('Perfil', () => {
   describe('podeSerCadastrado', () => {

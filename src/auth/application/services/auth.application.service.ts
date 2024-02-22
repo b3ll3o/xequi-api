@@ -36,7 +36,7 @@ export class AuthApplicationService {
     novaAutorizaoDto: NovaAutorizaoDto,
   ): Promise<AutorizaoCriadaDto> {
     const { nome } = novaAutorizaoDto;
-    const autorizaoCadastrada = await this._authService.criaNovaAutorizao(
+    const autorizaoCadastrada = await this._authService.criaNovaAutorizacao(
       new Autorizacao({ nome }),
     );
     if (autorizaoCadastrada.invalido()) {
