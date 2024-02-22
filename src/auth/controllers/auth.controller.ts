@@ -23,7 +23,7 @@ export class AuthController {
 
   @Post('autorizacoes')
   criaNovaAutorizacao(
-    novaAutorizaoDto: NovaAutorizaoDto,
+    @Body() novaAutorizaoDto: NovaAutorizaoDto,
   ): Promise<AutorizaoCriadaDto> {
     return this._authApplicationService.criaNovaAutorizacao(novaAutorizaoDto);
   }

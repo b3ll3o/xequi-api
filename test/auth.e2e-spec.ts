@@ -14,6 +14,10 @@ import { JwtGuard } from '@/auth/application/guards/jwt.guard';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { Reflector } from '@nestjs/core';
 import { PayloadDtoStub } from '@/auth/test/stubs/dtos/payload.dto.stub';
+import { AutorizaoStub } from '@/auth/test/stubs/domain/entities/autorizacao.entity.stub';
+import { Perfil } from '@/auth/domain/entities/perfil.entity';
+import { Autorizacao } from '@/auth/domain/entities/autorizao.entity';
+import { NovaAutorizaoDtoStub } from '@/auth/test/stubs/dtos/nova.autorizacao.dto.stub';
 
 const BASE_URL = '/auth';
 
@@ -21,6 +25,7 @@ describe('auth', () => {
   let app: INestApplication;
   let repository: Repository<Usuario>;
   let jwtService: JwtService;
+  let autorizacaoRepository: Repository<Autorizacao>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -31,14 +36,21 @@ describe('auth', () => {
         TypeOrmModule.forRoot({
           type: 'sqlite',
           database: ':memory:',
-          entities: [Usuario, Empresa, UsuarioEmpresa],
+          entities: [Usuario, Empresa, UsuarioEmpresa, Perfil, Autorizacao],
           synchronize: true,
         }),
-        TypeOrmModule.forFeature([Usuario, Empresa, UsuarioEmpresa]),
+        TypeOrmModule.forFeature([
+          Usuario,
+          Empresa,
+          UsuarioEmpresa,
+          Perfil,
+          Autorizacao,
+        ]),
       ],
     }).compile();
 
     repository = module.get(getRepositoryToken(Usuario));
+    autorizacaoRepository = module.get(getRepositoryToken(Autorizacao));
     jwtService = module.get(JwtService);
 
     app = module.createNestApplication();
@@ -107,6 +119,35 @@ describe('auth', () => {
         .send(UsuarioStub.novo())
         .auth(TOKEN + '123', { type: 'bearer' })
         .expect(401);
+    });
+  });
+
+  describe('autorizacoes', () => {
+    const BASE_URL_AUTORIZACOES = `${BASE_URL}/autorizacoes`;
+
+    it('deve cadastrar uma nova autorização', async () => {
+      const TOKEN = await jwtService.signAsync(PayloadDtoStub.novo());
+      const usuarioCadastradoSenhaHash =
+        await UsuarioStub.cadastradoHashSenha();
+      await repository.save(usuarioCadastradoSenhaHash);
+      return request(app.getHttpServer())
+        .post(BASE_URL_AUTORIZACOES)
+        .send(NovaAutorizaoDtoStub.nova())
+        .auth(TOKEN, { type: 'bearer' })
+        .expect(201);
+    });
+
+    it('não deve cadastrar duas autorizações com o mesmo nome', async () => {
+      const TOKEN = await jwtService.signAsync(PayloadDtoStub.novo());
+      const usuarioCadastradoSenhaHash =
+        await UsuarioStub.cadastradoHashSenha();
+      await repository.save(usuarioCadastradoSenhaHash);
+      await autorizacaoRepository.save(AutorizaoStub.cadastrada());
+      return request(app.getHttpServer())
+        .post(BASE_URL_AUTORIZACOES)
+        .send(NovaAutorizaoDtoStub.nova())
+        .auth(TOKEN, { type: 'bearer' })
+        .expect(400);
     });
   });
 
