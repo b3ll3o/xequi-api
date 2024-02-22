@@ -18,6 +18,8 @@ import { AutorizaoStub } from '@/auth/test/stubs/domain/entities/autorizacao.ent
 import { Perfil } from '@/auth/domain/entities/perfil.entity';
 import { Autorizacao } from '@/auth/domain/entities/autorizao.entity';
 import { NovaAutorizaoDtoStub } from '@/auth/test/stubs/dtos/nova.autorizacao.dto.stub';
+import { PerfilStub } from '@/auth/test/stubs/domain/entities/perfil.entity.stub';
+import { NovoPerfilDtoStub } from '@/auth/test/stubs/dtos/novo.perfil.dto.stub';
 
 const BASE_URL = '/auth';
 
@@ -26,6 +28,7 @@ describe('auth', () => {
   let repository: Repository<Usuario>;
   let jwtService: JwtService;
   let autorizacaoRepository: Repository<Autorizacao>;
+  let perfilRepository: Repository<Perfil>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -51,6 +54,7 @@ describe('auth', () => {
 
     repository = module.get(getRepositoryToken(Usuario));
     autorizacaoRepository = module.get(getRepositoryToken(Autorizacao));
+    perfilRepository = module.get(getRepositoryToken(Perfil));
     jwtService = module.get(JwtService);
 
     app = module.createNestApplication();
@@ -146,6 +150,35 @@ describe('auth', () => {
       return request(app.getHttpServer())
         .post(BASE_URL_AUTORIZACOES)
         .send(NovaAutorizaoDtoStub.nova())
+        .auth(TOKEN, { type: 'bearer' })
+        .expect(400);
+    });
+  });
+
+  describe('perfis', () => {
+    const BASE_URL_PERFIS = `${BASE_URL}/perfis`;
+
+    it('deve cadastrar um novo perfil', async () => {
+      const TOKEN = await jwtService.signAsync(PayloadDtoStub.novo());
+      const usuarioCadastradoSenhaHash =
+        await UsuarioStub.cadastradoHashSenha();
+      await repository.save(usuarioCadastradoSenhaHash);
+      return request(app.getHttpServer())
+        .post(BASE_URL_PERFIS)
+        .send(NovaAutorizaoDtoStub.nova())
+        .auth(TOKEN, { type: 'bearer' })
+        .expect(201);
+    });
+
+    it('não deve cadastrar dois perfis com o mesmo nome', async () => {
+      const TOKEN = await jwtService.signAsync(PayloadDtoStub.novo());
+      const usuarioCadastradoSenhaHash =
+        await UsuarioStub.cadastradoHashSenha();
+      await repository.save(usuarioCadastradoSenhaHash);
+      await perfilRepository.save(PerfilStub.cadastrado());
+      return request(app.getHttpServer())
+        .post(BASE_URL_PERFIS)
+        .send(NovoPerfilDtoStub.novo())
         .auth(TOKEN, { type: 'bearer' })
         .expect(400);
     });
