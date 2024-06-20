@@ -12,10 +12,12 @@ export class UsuariosApplicationService {
     email,
     senha,
   }: NovoUsuarioDto): Promise<UsuarioCadastradoDto> {
-    const resultado = await this.usuariosService.cadastra({ email, senha });
-    if (resultado.invalido()) {
-      throw new BadRequestCustomException(resultado.notificacaoErros.erros);
+    const { notificacaoErros, resultado } = await this.usuariosService.cadastra(
+      { email, senha },
+    );
+    if (notificacaoErros.invalido()) {
+      throw new BadRequestCustomException(notificacaoErros.erros);
     }
-    return new UsuarioCadastradoDto(resultado.resultado);
+    return new UsuarioCadastradoDto(resultado);
   }
 }
