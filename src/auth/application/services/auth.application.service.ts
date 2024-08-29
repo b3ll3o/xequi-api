@@ -1,16 +1,16 @@
-import { UsuariosApplicationService } from '@/usuarios/application/services/usuarios.application.service';
-import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { UsuarioAutenticavelDto } from '../dtos/usuario.autenticavel.dto';
-import { JwtService } from '@nestjs/jwt';
-import { NovaAutorizaoDto } from '../dtos/nova.autorizao.dto';
-import { AutorizaoCriadaDto } from '../dtos/autorizao.criada.dto';
 import { Autorizacao } from '@/auth/domain/entities/autorizao.entity';
+import { Perfil } from '@/auth/domain/entities/perfil.entity';
 import { AuthService } from '@/auth/domain/services/auth.service';
 import { BadRequestCustomException } from '@/shared/exceptions/bad.request.custom.exception';
+import { UsuariosApplicationService } from '@/usuarios/application/services/usuarios.application.service';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import { AutorizaoCriadaDto } from '../dtos/autorizao.criada.dto';
+import { NovaAutorizaoDto } from '../dtos/nova.autorizao.dto';
 import { NovoPerfilDto } from '../dtos/novo.perfil.dto';
-import { PerfilCadastradoDto } from '../dtos/perfil.cadastrado.dto';
-import { Perfil } from '@/auth/domain/entities/perfil.entity';
 import { PayloadDto } from '../dtos/payload.dto';
+import { PerfilCadastradoDto } from '../dtos/perfil.cadastrado.dto';
+import { UsuarioAutenticavelDto } from '../dtos/usuario.autenticavel.dto';
 
 @Injectable()
 export class AuthApplicationService {
@@ -18,7 +18,7 @@ export class AuthApplicationService {
     private readonly _usuarioApplicationService: UsuariosApplicationService,
     private readonly _jwtService: JwtService,
     private readonly _authService: AuthService,
-  ) {}
+  ) { }
 
   async login(usuarioAutenticavelDto: UsuarioAutenticavelDto): Promise<any> {
     const usuario = await this._usuarioApplicationService.autentica(

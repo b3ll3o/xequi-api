@@ -1,7 +1,7 @@
-import { EmpresasService } from '@/empresas/domain/services/empresas.service';
-import { EmpresasApplicationService } from './empresas.application.service';
-import { EmpresaStub } from '@/empresas/test/stubs/entities/empresa.entity.stub';
 import { UsuarioLogadoDtoStub } from '@/auth/test/stubs/dtos/usuario.logado.dto.stub';
+import { EmpresasService } from '@/empresas/domain/services/empresas.service';
+import { EmpresaStub } from '@/empresas/test/stubs/entities/empresa.entity.stub';
+import { EmpresasApplicationService } from './empresas.application.service';
 
 describe('EmpresasApplicationService', () => {
   let service: EmpresasApplicationService;
@@ -25,7 +25,7 @@ describe('EmpresasApplicationService', () => {
       expect(empresa.nome).toBe(EmpresaStub.NOME);
     });
 
-    it('deve jogar um erro quando usuario estiver invalido', async () => {
+    it('deve jogar um erro quando empresa estiver invalido', async () => {
       jest
         .spyOn(empresasService, 'cadastra')
         .mockImplementation(() => Promise.resolve(EmpresaStub.invalida()));
